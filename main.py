@@ -14,11 +14,15 @@ class MainWindow(QMainWindow):
         # Widgets
         file_menu_item = self.menuBar().addMenu("&File")
         help_menu_item = self.menuBar().addMenu("&Help")
+        search_menu_item = self.menuBar().addMenu("&Search")
         add_student_action = QAction("Add student", self)
         add_student_action.triggered.connect(self.insert)
         file_menu_item.addAction(add_student_action)
         about_action = QAction("About", self)
         help_menu_item.addAction(about_action)
+        search_action = QAction("Search", self)
+        search_action.triggered.connect(self.search)
+        search_menu_item.addAction(search_action)
 
         self.table = QTableWidget()
         self.table.setColumnCount(4)
@@ -38,6 +42,10 @@ class MainWindow(QMainWindow):
 
     def insert(self):
         dialog = InsertDialog()
+        dialog.exec()
+
+    def search(self):
+        dialog = SearchDialog()
         dialog.exec()
 
 
@@ -84,6 +92,24 @@ class InsertDialog(QDialog):
         cursor.close()
         connection.close()
         sm_system.load_data()
+
+
+class SearchDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Search Data")
+        self.setFixedWidth(300)
+        self.setFixedHeight(300)
+        layout = QVBoxLayout()
+
+        search = QLineEdit()
+        search.setPlaceholderText("Search")
+        layout.addWidget(search)
+
+        search_button = QPushButton("Search")
+        layout.addWidget(search_button)
+
+        self.setLayout(layout)
 
 
 app = QApplication(sys.argv)
