@@ -2,3 +2,4 @@ venv/
 .idea/
 example.py
 database.db
+icons/
