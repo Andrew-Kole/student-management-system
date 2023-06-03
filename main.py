@@ -23,6 +23,7 @@ class MainWindow(QMainWindow):
         file_menu_item.addAction(add_student_action)
 
         about_action = QAction("About", self)
+        about_action.triggered.connect(self.about)
         help_menu_item.addAction(about_action)
 
         search_action = QAction(QIcon("icons/search.png"), "Search", self)
@@ -90,6 +91,10 @@ class MainWindow(QMainWindow):
 
     def delete(self):
         dialog = DeleteDialog()
+        dialog.exec()
+
+    def about(self):
+        dialog = AboutDialog()
         dialog.exec()
 
 
@@ -258,6 +263,18 @@ class DeleteDialog(QDialog):
         confirmation_widget.setWindowTitle("Success")
         confirmation_widget.setText("The record was deleted successfully.")
         confirmation_widget.exec()
+
+
+class AboutDialog(QMessageBox):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("About")
+        content = """
+        It's an application for learning, that was done during a course.
+        Feel free to critic it.
+        """
+        self.setText(content)
+
 
 
 app = QApplication(sys.argv)
